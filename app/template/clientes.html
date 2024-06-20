@@ -1,0 +1,92 @@
+
+{% extends "base.html" %}
+
+{% block title %}Clientes{% endblock %}
+
+{% block content %}
+
+
+<h5 class="p-3 mb-5 bg-warning">Insertar cliente</h5>
+
+
+<table class="table table-hover text-center">
+  <thead>
+    <tr>
+      <th>DNI</th>
+      <th>NOMBRE</th>
+      <th>APELLIDOS</th>
+      <th>GENERO</th>
+      <th>FECHA NACIMIENTO</th>
+      <th>TELEFONO MOVIL</th>
+      <th>DIRECCION</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tr> <form action="/insertarCliente" method="post">
+    <td><input type="text" value="" name="dni"></td> 
+    <td><input type="text" value="" name="nombre"></td> 
+    <td><input type="text" value="" name="apellidos"></td> 
+    <td><input type="text" value="" name="genero"></td>
+    <td><input type="text" value="" name="fecha_nacimiento"></td> 
+    <td><input type="number" value="" name="tlf_movil"></td> 
+    <td><input type="text" value="" name="direccion"></td> 
+    <td><input type="reset" class="btn btn-primary"value="Limpiar" /></td>
+    <td><input type="submit" class="btn btn-success" value="Insertar" /></form></td>
+  </tr>
+
+
+</table>
+    
+
+<h5 class="p-3 mb-5 mt-5 bg-warning">Listado de todos los clientes</h5>
+
+
+    <table class="table table-hover text-center">
+      <thead>
+        <tr>
+          <th>ID_CLIENTE</th>
+          <th>DNI</th>
+          <th>NOMBRE</th>
+          <th>APELLIDOS</th>
+          <th>GENERO</th>
+          <th>FECHA NACIMIENTO</th>
+          <th>TELEFONO MOVIL</th>
+          <th>DIRECCION</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+
+
+  {% for cliente in lista %}
+
+    <tr> <form action="/updateCliente" method="post">
+      <td><input type="hidden" value="{{ cliente.id_cliente }}" name="id_cliente">{{ cliente.id_cliente }}</td> 
+      <td><input type="text" value="{{ cliente.dni }}" name="dni"></td> 
+      <td><input type="text" value="{{ cliente.nombre }}" name="nombre"></td> 
+      <td><input type="text" value="{{ cliente.apellidos }}" name="apellidos"></td> 
+      <td><input type="text" value="{{ cliente.genero }}" name="genero"></td>
+      <td><input type="text" value="{{ cliente.fecha_nacimiento }}" name="fecha_nacimiento"></td> 
+      <td><input type="number" value="{{ cliente.tlf_movil }}" name="tlf_movil"></td> 
+      <td><input type="text" value="{{ cliente.direccion }}" name="direccion"></td> 
+      <td><input type="submit" class="btn btn-primary"value="Actualizar" /></form></td>
+      <td><form action="/borrarCliente"  method="post">
+            <input type="hidden" name="id_cliente" value="{{ cliente.id_cliente }}" />
+            <input type="submit" class="btn btn-danger" value="Borrar" />
+          </form>
+        </td>
+    </tr>
+
+
+  {% endfor %}
+
+
+</table>
+
+{% endblock %}
+
+{% block footer %}Clientes{% endblock %}
+
+

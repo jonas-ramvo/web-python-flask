@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}pedidos{% endblock %}
+
+{% block content %}
+
+
+
+<h5 class="p-3 mb-5 bg-warning">Seleccione cliente</h5>
+
+
+<div class="mt-5 panel mb-5">
+
+  <form action="/pedidos"  method="get" >
+          <select name="id_cliente" class="form-control m-3" style="width:400px"class="text-center">
+            <option selected="true" disabled="disabled">Todos los pedidos</option>
+            {% for cliente in lista %}
+              <option value="{{cliente.id_cliente}}">ID {{cliente.id_cliente}} {{cliente.nombre}} {{cliente.apellidos}}</option>
+            {% endfor %}
+          </select>
+        <input type="submit"class="btn btn-success m-3" value="Mostrar lista" />
+  </form>
+
+</div>
+
+
+<h5 class="p-3 mb-5 bg-warning">Insertar pedido</h5>
+
+
+<table class="table table-hover text-center">
+  <thead>
+    <tr>
+      <th>FECHA</th>
+      <th>ARTICULO</th>
+      <th>CANTIDAD</th>
+      <th>PRECIO UNIDAD</th>
+      <th>PRECIO TOTAL</th>
+      <th>ID CLIENTE</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tr> <form action="/insertarPedido" method="post">
+    <td><input type="text" value="" name="fecha"></td> 
+    <td><input type="text" value="" name="articulo"></td> 
+    <td><input type="text" value="" name="cantidad"></td> 
+    <td><input type="text" value="" name="precio_unidad"></td>
+    <td><input type="text" value="" name="precio_total"></td> 
+    <td><select name="id_cliente" >
+      {% for cliente in lista %}
+        <option value="{{cliente.id_cliente}}">ID {{cliente.id_cliente}} {{cliente.nombre}} {{cliente.apellidos}}</option>
+      {% endfor %}
+    </select></td> 
+    <td><input type="reset" class="btn btn-primary"value="Limpiar" /></td>
+    <td><input type="submit" class="btn btn-success" value="Insertar" /></form></td>
+  </tr>
+
+
+</table>
+
+
+{% if id_cliente %}
+<div class="mt-5 ">
+
+  {% for data in lista3 %}
+  <h5 class="p-3 mb-5 bg-warning">Pedidos ID {{data.id_cliente}}</h5>
+  {% endfor %}
+
+
+  <table class="table table-hover text-center">
+    <thead>
+      <tr>
+          <th>ID PEDIDO</th>
+          <th>FECHA</th>
+          <th>ARTICULO</th>
+          <th>CANTIDAD</th>
+          <th>PRECIO UNIDAD</th>
+          <th>PRECIO TOTAL</th>
+          <th>ID CLIENTE</th>
+          <th></th>
+          <th></th>
+      </tr>
+    </thead>
+
+    {% for pedido in lista2 %}
+    
+      <tr><form action="/updatePedido?id_cliente={{ pedido.id_cliente }}" method="post">
+        <td><input type="hidden" value="{{ pedido.id_pedido }}" name="id_pedido">{{ pedido.id_pedido }}</td>
+        <td><input type="text" name="fecha" value="{{ pedido.fecha }}" /></td> 
+        <td><input type="text" name="articulo" value="{{ pedido.articulo }}" /></td>
+        <td><input type="text" name="cantidad" value="{{ pedido.cantidad }}" /></td> 
+        <td><input type="text" name="precio_unidad"  value="{{ pedido.precio_unidad }}" /></td>
+        <td><input type="text" name="precio_total"  value="{{ pedido.precio_total }}" /></td>
+        <td><input type="hidden" name="id_cliente"  value="{{ pedido.id_cliente }}" />{{ pedido.id_cliente }}</td> 
+        <td><input type="submit" class="btn btn-primary"value="Actualizar" /></form></td>
+        <td><form action="/borrarPedido?id_cliente={{ pedido.id_cliente }}" method="post">
+            <input type="hidden" value="{{ pedido.id_pedido }}" name="id_pedido">
+            <input type="submit" class="btn btn-danger"value="Borrar" />
+          </form>
+        </td>
+      </tr>
+
+      {% endfor %}
+
+  </table>
+  
+</div> 
+
+
+{% else %}
+
+<div class="mt-5 ">
+
+  <h5 class="p-3 mb-5 bg-warning">Todos los pedidos</h5>
+
+
+  <table class="table table-hover text-center">
+    <thead>
+      <tr>
+          <th>ID PEDIDO</th>
+          <th>FECHA</th>
+          <th>ARTICULO</th>
+          <th>CANTIDAD</th>
+          <th>PRECIO UNIDAD</th>
+          <th>PRECIO TOTAL</th>
+          <th>ID CLIENTE</th>
+          <th></th>
+          <th></th>
+      </tr>
+    </thead>
+
+ {% for pedido in lista2 %}
+    
+      <tr><form action="/updatePedido" method="post">
+        <td><input type="hidden" value="{{ pedido.id_pedido }}" name="id_pedido">{{ pedido.id_pedido }}</td>
+        <td><input type="text" name="fecha"  value="{{ pedido.fecha }}" /></td> 
+        <td><input type="text" name="articulo" value="{{ pedido.articulo }}" /></td>
+        <td><input type="text" name="cantidad" value="{{ pedido.cantidad }}" /></td> 
+        <td><input type="text" name="precio_unidad"  value="{{ pedido.precio_unidad }}" /></td>
+        <td><input type="text" name="precio_total"value="{{ pedido.precio_total }}" /></td>
+        <td><input type="hidden" name="id_cliente"  value="{{ pedido.id_cliente }}" />{{ pedido.id_cliente }}</td> 
+        <td><input type="submit" class="btn btn-primary"value="Actualizar" /></form></td>
+        <td><form action="/borrarPedido" method="post">
+            <input type="hidden" value="{{ pedido.id_pedido }}" name="id_pedido">
+            <input type="submit" class="btn btn-danger"value="Borrar" />
+          </form>
+        </td>
+      </tr>
+
+  {% endfor %}
+
+  </table>
+
+</div> 
+
+{% endif %}
+
+{% endblock %}
+
+{% block footer %}pedidos{% endblock %}
